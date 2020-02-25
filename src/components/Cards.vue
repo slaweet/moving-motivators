@@ -2,7 +2,7 @@
   <div class="cards">
     <div v-for="card in cards" :key="card.name">
       <span class="card">
-        <span class="name">{{card.name}}</span>
+        <span class="name" :style="{'background': card.color}">{{card.name}}</span>
         <span class="description">{{card.description}}</span>
       </span>
     </div>
@@ -29,31 +29,37 @@ export default class Cards extends Vue {
   align-items: center;
   width: 100%;
   overflow-x: auto;
-  padding: 10px;
   box-sizing: border-box;
 }
 
 .card {
   display: block;
-  width: 150px;
-  height: 150px;
-  border: 1px solid black;
+  width: 165px;
+  height: 165px;
+  border: 1px solid #cccccc;
   border-radius: 3px;
-  margin: 10px;
   margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow:rgba(6, 6, 6, 0.06) 0px 2px 4px 0px;
+  cursor: pointer;
 }
 
 .name {
   color: white;
-  background: black;
-  padding: 10px;
+  background: #cccccc;
+  padding: 5px;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .description {
   font-size: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  margin: 5px;
+  padding: 5px;
+  background: #f8f8f8;
 }
 </style>
