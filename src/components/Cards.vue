@@ -3,6 +3,9 @@
     <div v-for="card in cards" :key="card.name">
       <span class="card">
         <span class="name" :style="{'background': card.color}">{{card.name}}</span>
+        <span class="icon">
+          <font-awesome-icon :icon="card.icon" size="4x" :style="{ color: '#cccccc' }" />
+        </span>
         <span class="description">{{card.description}}</span>
       </span>
     </div>
@@ -30,6 +33,7 @@ export default class Cards extends Vue {
   width: 100%;
   overflow-x: auto;
   box-sizing: border-box;
+  height: 80vh;
 }
 
 .card {
@@ -52,6 +56,10 @@ export default class Cards extends Vue {
   padding: 5px;
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.icon {
+  margin-bottom: -20px;
 }
 
 .description {
