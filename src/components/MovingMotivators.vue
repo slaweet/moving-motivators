@@ -3,6 +3,7 @@
     <div class="controls">
       <h2>Moving Motivators</h2>
     </div>
+    <Cards :cards="cards" />
     <div class="footer">
       Built with <a href="https://vuejs.org/" target="_blank">Vue.js</a>
       and ❤️  by <a href="https://github.com/slaweet" target="_blank">slaweet</a>
@@ -13,13 +14,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Card } from '../types';
+import Cards from './Cards.vue';
 import cards from '../cards';
 
 @Component({
   components: {
+    Cards,
   },
 })
-export default class CubeCrash extends Vue {
+export default class MovingMotivators extends Vue {
   private cards:Card[] = [];
 
   mounted() {
