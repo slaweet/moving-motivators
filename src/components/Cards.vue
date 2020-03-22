@@ -1,12 +1,28 @@
 <template>
   <div class="cards">
     <div v-for="card in cards" :key="card.name">
-      <span class="card">
-        <span class="name" :style="{'background': card.color}">{{card.name}}</span>
-        <span class="icon">
-          <font-awesome-icon :icon="card.icon" size="4x" :style="{ color: '#cccccc' }" />
+      <span :class="{
+          'slot': true,
+          'dragover': card.name === dropSlot,
+        }"
+        @drop="handleDrop(card)"
+        @dragover="allowDrop"
+        @dragenter="dragenter(card)"
+        @dragleave="dragleave">
+        <span :class="{
+            'card': true,
+            'dragged': card.name === draggedCard,
+            'invisible': card.name === invisibleCard,
+          }"
+          draggable="true"
+          @dragstart="handleDragStart(card)"
+          @dragend="handleDragEnd">
+          <span class="name" :style="{'background': card.color}">{{card.name}}</span>
+          <span class="icon">
+            <font-awesome-icon :icon="card.icon" size="4x" :style="{ color: '#cccccc' }" />
+          </span>
+          <span class="description">{{card.description}}</span>
         </span>
-        <span class="description">{{card.description}}</span>
       </span>
     </div>
   </div>
@@ -22,6 +38,43 @@ import { Card } from '../types';
 })
 export default class Cards extends Vue {
   @Prop() cards:Card[];
+
+  draggedCard:string='';
+
+  invisibleCard:string='';
+
+  dropSlot:string='';
+
+  handleDragStart(card:Card) {
+    this.draggedCard = card.name;
+    setTimeout(() => { this.invisibleCard = card.name; }, 0);
+  }
+
+
+  handleDragEnd() {
+    this.draggedCard = '';
+    this.invisibleCard = '';
+  }
+
+  handleDrop() {
+    this.$emit('cardDrop', { draggedCard: this.draggedCard, dropSlot: this.dropSlot });
+    this.draggedCard = '';
+    this.invisibleCard = '';
+    this.dropSlot = '';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  allowDrop(ev:any) {
+    ev.preventDefault();
+  }
+
+  dragenter(card:Card) {
+    this.dropSlot = card.name;
+  }
+
+  dragleave() {
+    this.dropSlot = '';
+  }
 }
 </script>
 
@@ -36,38 +89,63 @@ export default class Cards extends Vue {
   height: 80vh;
 }
 
-.card {
+.slot {
   display: block;
-  width: 165px;
-  height: 165px;
-  border: 1px solid #cccccc;
-  border-radius: 3px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow:rgba(6, 6, 6, 0.06) 0px 2px 4px 0px;
-  cursor: pointer;
-}
-
-.name {
-  color: white;
-  background: #cccccc;
-  padding: 5px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.icon {
-  margin-bottom: -20px;
-}
-
-.description {
-  font-size: 12px;
-  border: 1px solid #cccccc;
-  border-radius: 3px;
+  width: 125px;
+  height: 195px;
   margin: 5px;
-  padding: 5px;
-  background: #f8f8f8;
+  border-radius: 3px;
+
+  &.dragover {
+    background: #f8f8f8;
+
+    & .card {
+      display: none;
+    }
+  }
+
+  & .card {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow:rgba(6, 6, 6, 0.06) 0px 2px 4px 0px;
+    cursor: pointer;
+
+    &.dragged {
+      transform: ratate(10deg);
+    }
+
+    &.invisible {
+      display: none;
+    }
+
+    & .name {
+      color: white;
+      background: #cccccc;
+      padding: 5px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 3px 3px 0 0;
+    }
+
+    & .icon {
+      margin-bottom: -20px;
+    }
+
+    & .description {
+      font-size: 12px;
+      border: 1px solid #cccccc;
+      border-radius: 3px;
+      min-height: 35%;
+      margin: 5px;
+      padding: 5px;
+      background: #f8f8f8;
+    }
+  }
 }
 </style>

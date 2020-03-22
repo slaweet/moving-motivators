@@ -3,7 +3,7 @@
     <div class="controls">
       <h2>Moving Motivators</h2>
     </div>
-    <Cards :cards="cards" />
+    <Cards :cards="cards" @cardDrop="handleCardDrop" />
     <div class="footer">
       Built with <a href="https://vuejs.org/" target="_blank">Vue.js</a>
       and ❤️  by <a href="https://github.com/slaweet" target="_blank">slaweet</a>
@@ -22,11 +22,21 @@ import cards from '../cards';
     Cards,
   },
 })
+
 export default class MovingMotivators extends Vue {
   private cards:Card[] = [];
 
   mounted() {
     this.cards = cards;
+  }
+
+  handleCardDrop({ draggedCard, dropSlot }:{ draggedCard: string, dropSlot: string }) {
+    const newCards = [...this.cards];
+    const draggedIndex = newCards.findIndex(({ name }) => name === draggedCard);
+    const dropIndex = newCards.findIndex(({ name }) => name === dropSlot);
+    newCards.splice(draggedIndex, 1);
+    newCards.splice(dropIndex, 0, this.cards[draggedIndex]);
+    this.cards = newCards;
   }
 }
 </script>
@@ -44,7 +54,6 @@ export default class MovingMotivators extends Vue {
 
 .controls {
   display: flex;
-  width: 442px;
   justify-content: space-between;
   align-items: center;
 }
