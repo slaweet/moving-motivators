@@ -44,7 +44,6 @@ export default class MovingMotivators extends Vue {
 
 .controls {
   display: flex;
-  width: 442px;
   justify-content: space-between;
   align-items: center;
 }
