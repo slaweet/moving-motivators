@@ -2,6 +2,7 @@
   <div class="app">
     <div class="controls">
       <h2>Moving Motivators</h2>
+      <a href="https://management30.com/practice/moving-motivators/" target="_blank">Learn more</a>
     </div>
     <Cards :cards="cards" @cardDrop="handleCardDrop" />
     <div class="footer">
