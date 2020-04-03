@@ -87,6 +87,7 @@ export default class Cards extends Vue {
   overflow-x: auto;
   box-sizing: border-box;
   height: 80vh;
+  justify-content: center;
 }
 
 .slot {
