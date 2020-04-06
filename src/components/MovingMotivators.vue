@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Card } from '../types';
+import { Card, Rate } from '../types';
 import Cards from './Cards.vue';
 import cards from '../cards';
 
@@ -30,12 +30,12 @@ export default class MovingMotivators extends Vue {
   mounted() {
     this.cards = cards.map((card) => ({
       ...card,
-      rate: 0,
+      rate: Rate.Neutral,
     }));
   }
 
   handleCardDrop({ draggedCard, dropSlot, rate }:{
-    draggedCard: string, dropSlot: string, rate: number
+    draggedCard: string, dropSlot: string, rate: Rate
   }) {
     const newCards = [...this.cards];
     const draggedIndex = newCards.findIndex(({ name }) => name === draggedCard);

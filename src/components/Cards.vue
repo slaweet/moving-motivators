@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Card } from '../types';
+import { Card, Rate } from '../types';
 
 @Component({
   components: {
@@ -42,7 +42,7 @@ import { Card } from '../types';
 export default class Cards extends Vue {
   @Prop() cards:Card[];
 
-  rates:number[]=[-1, 0, 1];
+  rates:Rate[]=[Rate.High, Rate.Neutral, Rate.Low];
 
   draggedCard:string='';
 
@@ -76,7 +76,7 @@ export default class Cards extends Vue {
     ev.preventDefault();
   }
 
-  dragenter(card:Card, rate:number) {
+  dragenter(card:Card, rate:Rate) {
     this.dropSlot = card.name;
     this.dropRate = rate;
   }
