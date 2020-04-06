@@ -28,14 +28,20 @@ export default class MovingMotivators extends Vue {
   private cards:Card[] = [];
 
   mounted() {
-    this.cards = cards;
+    this.cards = cards.map((card) => ({
+      ...card,
+      rate: 0,
+    }));
   }
 
-  handleCardDrop({ draggedCard, dropSlot }:{ draggedCard: string, dropSlot: string }) {
+  handleCardDrop({ draggedCard, dropSlot, rate }:{
+    draggedCard: string, dropSlot: string, rate: number
+  }) {
     const newCards = [...this.cards];
     const draggedIndex = newCards.findIndex(({ name }) => name === draggedCard);
     const dropIndex = newCards.findIndex(({ name }) => name === dropSlot);
     newCards.splice(draggedIndex, 1);
+    this.cards[draggedIndex].rate = rate;
     newCards.splice(dropIndex, 0, this.cards[draggedIndex]);
     this.cards = newCards;
   }

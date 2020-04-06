@@ -3,17 +3,20 @@
     <div v-for="card in cards" :key="card.name">
       <span :class="{
           'slot': true,
-          'dragover': card.name === dropSlot,
+          'dragover': card.name === dropSlot && rate === dropRate,
         }"
-        @drop="handleDrop(card)"
+        v-for="rate in rates"
+        :key="rate"
+        @drop="handleDrop(card, rate)"
         @dragover="allowDrop"
-        @dragenter="dragenter(card)"
+        @dragenter="dragenter(card, rate)"
         @dragleave="dragleave">
         <span :class="{
             'card': true,
             'dragged': card.name === draggedCard,
             'invisible': card.name === invisibleCard,
           }"
+          v-if="rate === card.rate"
           draggable="true"
           @dragstart="handleDragStart(card)"
           @dragend="handleDragEnd">
@@ -39,11 +42,15 @@ import { Card } from '../types';
 export default class Cards extends Vue {
   @Prop() cards:Card[];
 
+  rates:number[]=[-1, 0, 1];
+
   draggedCard:string='';
 
   invisibleCard:string='';
 
   dropSlot:string='';
+
+  dropRate:number=0;
 
   handleDragStart(card:Card) {
     this.draggedCard = card.name;
@@ -57,10 +64,11 @@ export default class Cards extends Vue {
   }
 
   handleDrop() {
-    this.$emit('cardDrop', { draggedCard: this.draggedCard, dropSlot: this.dropSlot });
+    this.$emit('cardDrop', { draggedCard: this.draggedCard, dropSlot: this.dropSlot, rate: this.dropRate });
     this.draggedCard = '';
     this.invisibleCard = '';
     this.dropSlot = '';
+    this.dropRate = 0;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -68,12 +76,14 @@ export default class Cards extends Vue {
     ev.preventDefault();
   }
 
-  dragenter(card:Card) {
+  dragenter(card:Card, rate:number) {
     this.dropSlot = card.name;
+    this.dropRate = rate;
   }
 
   dragleave() {
     this.dropSlot = '';
+    this.dropRate = 0;
   }
 }
 </script>
@@ -93,12 +103,12 @@ export default class Cards extends Vue {
 .slot {
   display: block;
   width: 125px;
-  height: 195px;
+  height: 125px;
   margin: 5px;
   border-radius: 3px;
 
   &.dragover {
-    background: #f8f8f8;
+    background: #e8e8e8;
 
     & .card {
       display: none;
@@ -108,7 +118,8 @@ export default class Cards extends Vue {
   & .card {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 160%;
+    margin: -60% 0;
     border: 1px solid #cccccc;
     border-radius: 3px;
     display: flex;
