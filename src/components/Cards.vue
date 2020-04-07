@@ -11,21 +11,13 @@
         @dragover="allowDrop"
         @dragenter="dragenter(card, rate)"
         @dragleave="dragleave">
-        <span :class="{
-            'card': true,
-            'dragged': card.name === draggedCard,
-            'invisible': card.name === invisibleCard,
-          }"
-          v-if="rate === card.rate"
-          draggable="true"
+        <Card
+          :isDragged="card.name === draggedCard"
+          v-if="rate === card.rate && card.name !== invisibleCard"
+          :card="card"
           @dragstart="handleDragStart(card)"
           @dragend="handleDragEnd">
-          <span class="name" :style="{'background': card.color}">{{card.name}}</span>
-          <span class="icon">
-            <font-awesome-icon :icon="card.icon" size="4x" :style="{ color: '#cccccc' }" />
-          </span>
-          <span class="description">{{card.description}}</span>
-        </span>
+        </Card>
       </span>
     </div>
   </div>
@@ -33,14 +25,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Card, Rate } from '../types';
+import { Card as CardType, Rate } from '../types';
+import Card from './Card.vue';
 
 @Component({
   components: {
+    Card,
   },
 })
 export default class Cards extends Vue {
-  @Prop() cards:Card[];
+  @Prop() cards:CardType[];
 
   rates:Rate[]=[Rate.High, Rate.Neutral, Rate.Low];
 
@@ -52,7 +46,7 @@ export default class Cards extends Vue {
 
   dropRate:number=0;
 
-  handleDragStart(card:Card) {
+  handleDragStart(card:CardType) {
     this.draggedCard = card.name;
     setTimeout(() => { this.invisibleCard = card.name; }, 0);
   }
@@ -76,7 +70,7 @@ export default class Cards extends Vue {
     ev.preventDefault();
   }
 
-  dragenter(card:Card, rate:Rate) {
+  dragenter(card:CardType, rate:Rate) {
     this.dropSlot = card.name;
     this.dropRate = rate;
   }
@@ -112,51 +106,6 @@ export default class Cards extends Vue {
 
     & .card {
       display: none;
-    }
-  }
-
-  & .card {
-    display: block;
-    width: 100%;
-    height: 160%;
-    margin: -60% 0;
-    border: 1px solid #cccccc;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow:rgba(6, 6, 6, 0.06) 0px 2px 4px 0px;
-    cursor: pointer;
-
-    &.dragged {
-      transform: ratate(10deg);
-    }
-
-    &.invisible {
-      display: none;
-    }
-
-    & .name {
-      color: white;
-      background: #cccccc;
-      padding: 5px;
-      font-weight: bold;
-      text-transform: uppercase;
-      border-radius: 3px 3px 0 0;
-    }
-
-    & .icon {
-      margin-bottom: -20px;
-    }
-
-    & .description {
-      font-size: 12px;
-      border: 1px solid #cccccc;
-      border-radius: 3px;
-      min-height: 35%;
-      margin: 5px;
-      padding: 5px;
-      background: #f8f8f8;
     }
   }
 }
