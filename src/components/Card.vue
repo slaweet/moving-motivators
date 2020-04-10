@@ -43,7 +43,7 @@ export default class Card extends Vue {
   display: block;
   width: 100%;
   height: 160%;
-  margin: -60% 0;
+  margin: -30px 0;
   border: 1px solid #cccccc;
   border-radius: 3px;
   display: flex;

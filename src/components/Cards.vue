@@ -4,6 +4,7 @@
       <span :class="{
           'slot': true,
           'dragover': card.name === dropSlot && rate === dropRate,
+          'dropable': draggedCard !== '',
         }"
         v-for="rate in rates"
         :key="rate"
@@ -98,11 +99,41 @@ export default class Cards extends Vue {
   display: block;
   width: 125px;
   height: 125px;
-  margin: 5px;
+  margin: 2px;
   border-radius: 3px;
+  border: transparent dashed 5px;
+  transition: border 200ms ease-in-out;
+
+  &::after {
+    color: transparent;
+    font-weight: bold;
+    display: block;
+    margin-top: 50px;
+  }
+
+  &:nth-child(1)::after {
+    content: 'High';
+  }
+
+  &:nth-child(2)::after {
+    content: 'Medium';
+  }
+
+  &:nth-child(3)::after {
+    content: 'Low';
+  }
+
+  &.dropable {
+    border-color: #e8e8e8;
+    color: #e8e8e8;
+  }
 
   &.dragover {
     background: #e8e8e8;
+
+    &::after {
+      color: #fff;
+    }
 
     & .card {
       display: none;
