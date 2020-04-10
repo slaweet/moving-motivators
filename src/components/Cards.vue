@@ -9,12 +9,12 @@
         v-for="rate in rates"
         :key="rate"
         @drop="handleDrop(card, rate)"
-        @dragover="allowDrop"
+        @dragover="(ev) => dragover(ev, card, rate)"
         @dragenter="dragenter(card, rate)"
         @dragleave="dragleave">
         <Card
           :isDragged="card.name === draggedCard"
-          v-if="rate === card.rate && card.name !== invisibleCard"
+          v-if="rate === card.rate && card.name !== invisibleCard && card.name !== dropSlot"
           :card="card"
           @dragstart="handleDragStart(card)"
           @dragend="handleDragEnd">
@@ -67,7 +67,9 @@ export default class Cards extends Vue {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  allowDrop(ev:any) {
+  dragover(ev:any, card:CardType, rate:Rate) {
+    this.dropSlot = card.name;
+    this.dropRate = rate;
     ev.preventDefault();
   }
 
@@ -90,17 +92,18 @@ export default class Cards extends Vue {
   align-items: center;
   width: 100%;
   overflow-x: auto;
-  box-sizing: border-box;
-  height: 80vh;
+  overflow-y: hidden;
+  height: 500px;
   justify-content: center;
+
 }
 
 .slot {
   display: block;
   width: 125px;
   height: 125px;
-  margin: 2px;
-  border-radius: 3px;
+  margin: 3px;
+  border-radius: 2px;
   border: transparent dashed 5px;
   transition: border 200ms ease-in-out;
 
@@ -133,10 +136,6 @@ export default class Cards extends Vue {
 
     &::after {
       color: #fff;
-    }
-
-    & .card {
-      display: none;
     }
   }
 }
