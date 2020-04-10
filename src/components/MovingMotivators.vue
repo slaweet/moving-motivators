@@ -16,7 +16,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Card, Rate } from '../types';
 import Cards from './Cards.vue';
-import cards from '../cards';
+import { getCardsFromURL, setCardsInURL } from '../utils';
 
 @Component({
   components: {
@@ -28,10 +28,7 @@ export default class MovingMotivators extends Vue {
   private cards:Card[] = [];
 
   mounted() {
-    this.cards = cards.map((card) => ({
-      ...card,
-      rate: Rate.Neutral,
-    }));
+    this.cards = getCardsFromURL();
   }
 
   handleCardDrop({ draggedCard, dropSlot, rate }:{
@@ -44,6 +41,8 @@ export default class MovingMotivators extends Vue {
     this.cards[draggedIndex].rate = rate;
     newCards.splice(dropIndex, 0, this.cards[draggedIndex]);
     this.cards = newCards;
+
+    setCardsInURL(this.cards);
   }
 }
 </script>
