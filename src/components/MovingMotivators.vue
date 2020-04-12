@@ -1,13 +1,21 @@
 <template>
   <div class="app">
     <div class="controls">
-      <h2>Moving Motivators</h2>
+      <h1>Moving Motivators</h1>
       <a href="https://management30.com/practice/moving-motivators/" target="_blank">Learn more</a>
     </div>
     <Cards :cards="cards" @cardDrop="handleCardDrop" />
     <div class="footer">
-      Built with <a href="https://vuejs.org/" target="_blank">Vue.js</a>
-      and ❤️  by <a href="https://github.com/slaweet" target="_blank">slaweet</a>
+      <span class="importance">
+        ⬅️  Least important
+      </span>
+      <span>
+        Built with <a href="https://vuejs.org/" target="_blank">Vue.js</a>
+        and ❤️  by <a href="https://github.com/slaweet" target="_blank">slaweet</a>
+      </span>
+      <span class="importance">
+        Most important ➡️
+      </span>
     </div>
   </div>
 </template>
@@ -65,10 +73,21 @@ export default class MovingMotivators extends Vue {
 }
 
 h1 {
-  margin: 0;
+  padding-right: 10px;
 }
 
-h2 {
-  padding-right: 10px;
+.footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  & .importance {
+    font-style: italics;
+    color: #cccccc;
+
+    &:hover {
+      color: #666666;
+    }
+  }
 }
 </style>
