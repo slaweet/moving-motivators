@@ -13,6 +13,28 @@ describe('MovingMotivators.vue', () => {
     expect(wrapper.findAll('.card')).toHaveLength(cards.length);
   });
 
+  it('dropping a card away from drop slots causes no change', async () => {
+    const wrapper = mount(MovingMotivators, { });
+    await wrapper.vm.$nextTick();
+
+    const freedomCard = wrapper.findAll('.card').at(5);
+    expect(freedomCard.find('.name').text()).toEqual('Freedom');
+
+    const acceptanceSlot = wrapper.findAll('.slot').at(2 * 3 + 1);
+    expect(acceptanceSlot.find('.name').text()).toEqual('Acceptance');
+
+    freedomCard.trigger('dragstart');
+    acceptanceSlot.trigger('dragenter');
+    acceptanceSlot.trigger('dragover');
+    acceptanceSlot.trigger('dragleave');
+    freedomCard.trigger('dragend');
+
+    await wrapper.vm.$nextTick();
+
+    expect(acceptanceSlot.find('.name').text()).toEqual('Acceptance');
+    expect(wrapper.findAll('.card').at(5).find('.name').text()).toEqual('Freedom');
+  });
+
   it('allows dragging and dropping a card to reorder it', async () => {
     const wrapper = mount(MovingMotivators, { });
     await wrapper.vm.$nextTick();
