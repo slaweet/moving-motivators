@@ -13,9 +13,8 @@ describe('MovingMotivators.vue', () => {
     expect(wrapper.findAll('.card')).toHaveLength(cards.length);
   });
 
-  it('dropping a card away from drop slots causes no change', async () => {
+  it('should cause no change if a card is dropped away from drop slots', () => {
     const wrapper = mount(MovingMotivators, { });
-    await wrapper.vm.$nextTick();
 
     const freedomCard = wrapper.findAll('.card').at(5);
     expect(freedomCard.find('.name').text()).toEqual('Freedom');
@@ -29,15 +28,12 @@ describe('MovingMotivators.vue', () => {
     acceptanceSlot.trigger('dragleave');
     freedomCard.trigger('dragend');
 
-    await wrapper.vm.$nextTick();
-
     expect(acceptanceSlot.find('.name').text()).toEqual('Acceptance');
     expect(wrapper.findAll('.card').at(5).find('.name').text()).toEqual('Freedom');
   });
 
-  it('allows dragging and dropping a card to reorder it', async () => {
+  it('allows dragging and dropping a card to reorder it', () => {
     const wrapper = mount(MovingMotivators, { });
-    await wrapper.vm.$nextTick();
 
     const freedomCard = wrapper.findAll('.card').at(5);
     expect(freedomCard.find('.name').text()).toEqual('Freedom');
@@ -49,15 +45,12 @@ describe('MovingMotivators.vue', () => {
     acceptanceSlot.trigger('dragenter');
     acceptanceSlot.trigger('drop');
 
-    await wrapper.vm.$nextTick();
-
     expect(wrapper.findAll('.card').at(2).find('.name').text()).toEqual('Freedom');
     expect(wrapper.findAll('.card').at(3).find('.name').text()).toEqual('Acceptance');
   });
 
-  it('allows dragging and dropping a card to change its fulfilment', async () => {
+  it('allows dragging and dropping a card to change its fulfilment', () => {
     const wrapper = mount(MovingMotivators, { });
-    await wrapper.vm.$nextTick();
 
     const firstSlot = wrapper.findAll('.slot').at(0);
     const secondSlot = wrapper.findAll('.slot').at(1);
