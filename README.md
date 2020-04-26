@@ -11,7 +11,7 @@
 # moving-motivators
 
 
-![Sample screenshot](screenshot.png)
+![Sample screenshot](public/screenshot.png)
 
 
 ## Project setup
