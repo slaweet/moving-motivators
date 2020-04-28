@@ -16,6 +16,8 @@
           :isDragged="card.name === draggedCard"
           v-if="rate === card.rate && card.name !== invisibleCard && card.name !== dropSlot"
           :card="card"
+          @touchstart="handleDragStart(card)"
+          @touchend="handleDragEnd"
           @dragstart="handleDragStart(card)"
           @dragend="handleDragEnd">
         </Card>
