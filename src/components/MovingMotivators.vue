@@ -82,12 +82,8 @@ h1 {
   width: 100%;
 
   & .importance {
-    font-style: italics;
-    color: #cccccc;
-
-    &:hover {
-      color: #666666;
-    }
+    font-style: italic;
+    color: #444;
   }
 }
 </style>
