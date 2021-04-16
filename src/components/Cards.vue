@@ -54,7 +54,6 @@ export default class Cards extends Vue {
     setTimeout(() => { this.invisibleCard = card.name; }, 0);
   }
 
-
   handleDragEnd() {
     this.draggedCard = '';
     this.invisibleCard = '';
