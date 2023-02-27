@@ -2,9 +2,12 @@
   "name": "moving-motivators",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve; # TODO Don't use --openssl-legacy-provider       in any of the scripts, here's why: https://stackoverflow.com/a/73027407/2080716 ",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "eslint": "vue-cli-service lint"
   },
